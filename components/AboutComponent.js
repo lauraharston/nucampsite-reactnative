@@ -1,54 +1,21 @@
 import React, { Component } from "react";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
-import { ListItem } from 'react-native-elements';
-import { Card } from "react-native-elements";
+import { ListItem, Card } from 'react-native-elements';
 import { View, Text } from "react-native";
-import { PARTNERS } from '../shared/partners'
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
 
-class About extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      partners: PARTNERS,
-    };
-  }
-
-  static navigationOptions = {
-    title: "About Us",
-  };
-
-  render() {
-
-    const renderPartner= ({item}) => {
-        return (
-        <ListItem
-            title={item.name}
-            subtitle={item.description}
-            leftAvatar={{source: require('./images/bootstrap-logo.png')}}
-        />
-        )
+const mapStateToProps = state => {
+    return {
+      partners: state.partners
     }
-
-    return (
-      <ScrollView>
-        <Mission />
-        <Card>
-            <FlatList
-                data={this.state.partners}
-                keyExtractor={item => item.id.toString()}
-                renderItem={renderPartner}
-            />
-        </Card>
-      </ScrollView>
-    );
-  }
 }
 
 function Mission() {
   return (
     <View>
-      <Card title={"Our Mission"}>
-        <Text>
+      <Card title="Our Mission">
+        <Text style={{margin:10}}>
           We present a curated database of the best campsites in the vast woods
           and backcountry of the World Wide Web Wilderness. We increase access
           to adventure for the public while promoting safe and respectful use of
@@ -62,4 +29,39 @@ function Mission() {
   );
 }
 
-export default About;
+class About extends Component {
+  
+  static navigationOptions = {
+    title: "About Us",
+  };
+
+  render() {
+
+    const renderPartner= ({item}) => {
+        return (
+        <ListItem
+            title={item.name}
+            subtitle={item.description}
+            leftAvatar={{source: {uri: baseUrl + item.image}}}
+        />
+        )
+    }
+
+    return (
+      <ScrollView>
+        <Mission />
+        <Card>
+            <FlatList
+                data={this.props.partners.partners}
+                keyExtractor={item => item.id.toString()}
+                renderItem={renderPartner}
+            />
+        </Card>
+      </ScrollView>
+    );
+  }
+}
+
+
+
+export default connect(mapStateToProps)(About);
