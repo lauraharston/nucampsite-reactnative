@@ -1,23 +1,23 @@
 import React, { Component } from "react";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
-import { ListItem, Card } from 'react-native-elements';
+import { ListItem, Card } from "react-native-elements";
 import { View, Text } from "react-native";
-import { connect } from 'react-redux';
-import { baseUrl } from '../shared/baseUrl';
-import Loading  from './LoadingComponent';
-import * as Animatable from 'react-native-animatable'; 
+import { connect } from "react-redux";
+import { baseUrl } from "../shared/baseUrl";
+import Loading from "./LoadingComponent";
+import * as Animatable from "react-native-animatable";
 
-const mapStateToProps = state => {
-    return {
-      partners: state.partners
-    }
-}
+const mapStateToProps = (state) => {
+  return {
+    partners: state.partners,
+  };
+};
 
 function Mission() {
   return (
     <View>
       <Card title="Our Mission">
-        <Text style={{margin:10}}>
+        <Text style={{ margin: 10 }}>
           We present a curated database of the best campsites in the vast woods
           and backcountry of the World Wide Web Wilderness. We increase access
           to adventure for the public while promoting safe and respectful use of
@@ -32,76 +32,58 @@ function Mission() {
 }
 
 class About extends Component {
-  
   static navigationOptions = {
     title: "About Us",
   };
 
   render() {
-
-    const renderPartner= ({item}) => {
-        return (
-        <ListItem
-            title={item.name}
-            subtitle={item.description}
-            leftAvatar={{source: {uri: baseUrl + item.image}}}
-        />
-        )
-    }
-    if(this.props.partners.isLoading) {
+    const renderPartner = ({ item }) => {
       return (
-      <ScrollView>
-            <Mission />
-            <Card
-            title='Community Partners'
-            >
-            <Loading/>
-            </Card>
-      </ScrollView>
-      )
+        <ListItem
+          title={item.name}
+          subtitle={item.description}
+          leftAvatar={{ source: { uri: baseUrl + item.image } }}
+        />
+      );
+    };
+    if (this.props.partners.isLoading) {
+      return (
+        <ScrollView>
+          <Mission />
+          <Card title="Community Partners">
+            <Loading />
+          </Card>
+        </ScrollView>
+      );
     }
 
-    if(this.props.partners.errMess){
-      return(
+    if (this.props.partners.errMess) {
+      return (
         <ScrollView>
-           <Animatable.View
-            animation='fadeInDown'
-            duration={2000}
-            delay={1000}
-           >
+          <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
             <Mission />
-            <Card
-              title='Community Partners'
-            >
+            <Card title="Community Partners">
               <Text>{this.props.partners.errMess}</Text>
             </Card>
           </Animatable.View>
-      </ScrollView>
-      )
+        </ScrollView>
+      );
     }
     return (
       <ScrollView>
-        <Animatable.View
-          animation='fadeInDown'
-          duration={2000}
-          delay={1000}
-        >
-        <Mission />
-        <Card
-          title='Community Partners'
-        >
+        <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
+          <Mission />
+          <Card title="Community Partners">
             <FlatList
-                data={this.props.partners.partners}
-                keyExtractor={item => item.id.toString()}
-                renderItem={renderPartner}
+              data={this.props.partners.partners}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={renderPartner}
             />
-        </Card>
+          </Card>
         </Animatable.View>
       </ScrollView>
     );
   }
 }
-
-
 
 export default connect(mapStateToProps)(About);
