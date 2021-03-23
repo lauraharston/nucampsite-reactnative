@@ -34,8 +34,10 @@ class Reservation extends Component {
   handleReservation() {
     const message = 
     `Number of Campers: ${this.state.campers}
-    Hike-In? ${this.state.hikeIn}
-    Date: ${this.state.date.toLocaleDateString("en-US").split("-")}`
+    
+Hike-In? ${this.state.hikeIn}
+    
+Date: ${this.state.date.toLocaleDateString("en-US").split("-")}`
 
     console.log(JSON.stringify(this.state));
     Alert.alert(
