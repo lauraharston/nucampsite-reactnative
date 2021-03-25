@@ -43,16 +43,16 @@ Date: ${this.state.date.toLocaleDateString("en-US").split("-")}`;
       [
         {
           text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "OK",
           onPress: () => {
             this.presentLocalNotification(
               this.state.date.toLocaleDateString("en-US")
             );
             this.resetForm();
-          },
-          style: "cancel",
-        },
-        {
-          text: "OK",
+          }
         },
       ],
       { cancelable: false }
